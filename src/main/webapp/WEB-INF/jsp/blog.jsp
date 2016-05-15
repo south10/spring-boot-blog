@@ -72,10 +72,10 @@
                 <div class="post-preview">
                     <a href="/post/${post.id}">
                         <h2 class="post-title">
-                            ${post.subject}
+                            ${post.title}
                         </h2>
                         <h3 class="post-subtitle">
-                            부 제목
+                            ${post.subtitle}
                         </h3>
                     </a>
                     <p class="post-meta">Posted by <a href="#">south10</a> on ${post.regDate}</p>
