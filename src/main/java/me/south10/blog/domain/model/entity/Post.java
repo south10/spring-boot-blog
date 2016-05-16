@@ -2,6 +2,7 @@ package me.south10.blog.domain.model.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -35,5 +37,6 @@ public class Post {
 	@Column(length = 100000000)
 	String content;
 
-	Date regDate;
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+	LocalDateTime regDate;
 }

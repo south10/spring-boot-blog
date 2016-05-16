@@ -149,28 +149,31 @@
     <i class="pen-icon icon-createlink" data-action="createlink"></i>
 </div>
 
-<form:form action="/post/write" commandName="post"
-           onsubmit="if($('#pen').html()!='<p><br></p>')$('#content').val($('#pen').html()); pen.destroy();"
-           method="post">
+<c:if test="${post.id == 0}"><c:url var="actionUrl" value="/post/write"/></c:if>
+<c:if test="${post.id != 0}"><c:url var="actionUrl" value="/post/${post.id}/edit"/></c:if>
 
-    <form:errors path="*" cssClass="errorblock" element="div"/>
+<form:form action="${actionUrl}" commandName="post" onsubmit="if($('#pen').html()!='<p><br></p>')$('#content').val($('#pen').html()); pen.destroy();" method="post">
+
+    <c:if test="${post.id != 0}"><form:input type="hidden" path="regDate" /></c:if>
+
+    <form:errors path="*" cssClass="errorblock" element="div" />
 
     <form:input type="text" path="title" placeholder="Title"
                 style="height: 70px; width: 100%; font-size: 55px;
 			border: none; border-right: 0px; border-top: 0px; boder-left: 0px; boder-bottom: 1px; outline-style: none;
-			font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 800;"/>
-    <form:errors path="title" cssClass="error"/>
+			font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 800;" />
+    <form:errors path="title" cssClass="error" />
 
     <form:input type="text" path="subtitle" placeholder="Subtitle (option)"
                 style="height: 60px; width: 100%; font-size: 24px;
 			border: none; border-right: 0px; border-top: 0px; boder-left: 0px; boder-bottom: 1px; outline-style: none;
-			font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 600;"/>
+			font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 600;" />
 
     <hr style="margin-top: 2px; border-top: 1px solid #999;">
 
     <div data-toggle="pen" data-placeholder="Content" id="pen" style="min-height: 200px;"></div>
-    <form:input type="hidden" path="content" id="content"/>
-    <form:errors path="content" cssClass="error"/>
+    <form:input type="hidden" path="content" id="content" />
+    <form:errors path="content" cssClass="error" />
 
     <hr>
 
@@ -191,6 +194,8 @@
         toolbar: document.getElementById('custom-toolbar'),
         editor: document.querySelector('[data-toggle="pen"]')
     };
+
+    $('#pen').html($('#content').val());
 
     // create editor
     var pen = window.pen = new Pen(options);
