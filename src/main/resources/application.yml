@@ -1,6 +1,7 @@
 spring.mvc.view.prefix: /WEB-INF/jsp/
 spring.mvc.view.suffix: .jsp
-
+spring.social.facebook.app-id: 772912672844150
+spring.social.facebook.app-secret: c26d31cd4e5c690b7849f74b8e0bbd21
 #    jpa:
 #        database: H2
 

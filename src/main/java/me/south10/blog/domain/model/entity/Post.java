@@ -24,6 +24,9 @@ public class Post {
 	@GeneratedValue
 	int id;
 
+	String userId;
+	String name;
+
 	@NotNull
 	@Size(min = 1, max = 255)
 	@Column(nullable = false)
@@ -37,6 +40,7 @@ public class Post {
 	@Column(length = 100000000)
 	String content;
 
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+	String _csrf;
+
 	LocalDateTime regDate;
 }

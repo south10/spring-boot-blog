@@ -23,23 +23,28 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+            <a class="navbar-brand" href="/post/list">Start Bootstrap</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="/blog">Home</a>
+                    <a href="/post/write">Write Post</a>
                 </li>
                 <li>
-                    <a href="#about.html">About</a>
+                    <a href="https://github.com/south10/springboot-blog">Spring-Blog GitHub</a>
                 </li>
                 <li>
-                    <a href="/post">Sample Post</a>
+                    <a href="http://millky.com/@origoni/folder/30/post/list">자바 블로그 개발하기</a>
                 </li>
                 <li>
-                    <a href="#contact.html">Contact</a>
+                    <c:if test="${user!=null}">
+                        <form action="/user/logout" method="post">
+                            <button type="submit" class="btn">Disconnect</button>
+                            <input type="hidden" name="_csrf" value="${_csrf.token}"></input>
+                        </form>
+                    </c:if>
                 </li>
             </ul>
         </div>
@@ -55,9 +60,9 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="site-heading">
-                    <h1>Clean Blog</h1>
+                    <h1>south10 Blog</h1>
                     <hr class="small">
-                    <span class="subheading">A Clean Blog Theme by Start Bootstrap</span>
+                    <span class="subheading">BLOG from south10</span>
                 </div>
             </div>
         </div>
@@ -78,7 +83,7 @@
                             ${post.subtitle}
                         </h3>
                     </a>
-                    <p class="post-meta">Posted by <a href="#">south10</a> on ${post.regDate}</p>
+                    <p class="post-meta">Posted by <a href="#">${post.name}</a> on ${post.regDate}</p>
                 </div>
                 <hr>
             </c:forEach>
@@ -101,15 +106,7 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <ul class="list-inline text-center">
                     <li>
-                        <a href="#">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fa fa-circle fa-stack-2x"></i>
-                                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                                </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
+                        <a href="https://www.facebook.com/ooa1769">
                                 <span class="fa-stack fa-lg">
                                     <i class="fa fa-circle fa-stack-2x"></i>
                                     <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
@@ -117,10 +114,18 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="https://github.com/south10">
                                 <span class="fa-stack fa-lg">
                                     <i class="fa fa-circle fa-stack-2x"></i>
                                     <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/kimny86">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
                                 </span>
                         </a>
                     </li>
