@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import me.south10.blog.domain.model.UserSession;
 import me.south10.blog.domain.model.entity.Post;
 import me.south10.blog.infrastructure.dao.PostDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +46,7 @@ public class PostController {
     }
 
     @RequestMapping(value = "/write", method = RequestMethod.POST)
-    public String write(@Valid Post post, BindingResult bindingResult){
-        User user = getConnect();
+    public String write(@Valid Post post, BindingResult bindingResult, UserSession user){
         if(bindingResult.hasErrors()){
             return "post/form";
         }
@@ -60,9 +60,6 @@ public class PostController {
     public String list(Model model, @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 2) Pageable pageable){
         Page<Post> postPage = postDao.findAll(pageable);
         model.addAttribute("postPage", postPage);
-
-        User user = getConnect();
-        model.addAttribute("user", user);
         return "post/list";
     }
 
@@ -70,16 +67,11 @@ public class PostController {
     public String view(Model model, @PathVariable int id){
         Post post = postDao.findOne(id);
         model.addAttribute("post", post);
-
-        User user = getConnect();
-        model.addAttribute("user", user);
         return "post/post";
     }
 
     @RequestMapping("/{id}/delete")
-    public String delete(@PathVariable int id){
-        User user = getConnect();
-
+    public String delete(@PathVariable int id, UserSession user){
         Post post = postDao.findOne(id);
         if(post.getUserId().equals(user.getProviderUserId())){
             postDao.delete(id);
@@ -88,9 +80,7 @@ public class PostController {
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
-    public String edit(Model model, @PathVariable int id){
-        User user = getConnect();
-
+    public String editor(Model model, @PathVariable int id,  UserSession user){
         Post post = postDao.findOne(id);
         if (post.getUserId().equals(user.getProviderUserId())) {
             model.addAttribute("post", post);
@@ -100,9 +90,7 @@ public class PostController {
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-    public String edit(@Valid Post post, BindingResult bindingResult){
-        User user = getConnect();
-
+    public String edit(@Valid Post post, BindingResult bindingResult,  UserSession user){
         if (bindingResult.hasErrors()) {
             return "post/form";
         }
@@ -117,23 +105,4 @@ public class PostController {
 
         return "post/form";
     }
-
-    private User getConnect() {
-        Connection<Facebook> connection = connectionRepository.findPrimaryConnection(Facebook.class);
-        if (connection == null) {
-            return null;
-        }
-        ConnectionData data = connection.createData();
-        return new User(data.getProviderUserId(), data.getDisplayName());
-    }
-
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class User {
-        String providerUserId;
-        String displayName;
-    }
-
 }
