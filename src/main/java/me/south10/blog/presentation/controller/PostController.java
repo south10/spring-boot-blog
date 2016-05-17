@@ -7,6 +7,10 @@ import lombok.Setter;
 import me.south10.blog.domain.model.entity.Post;
 import me.south10.blog.infrastructure.dao.PostDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionData;
 import org.springframework.social.connect.ConnectionRepository;
@@ -37,14 +41,14 @@ public class PostController {
 
     @RequestMapping(value = "/write", method = RequestMethod.GET)
     public String form(Post post){
-        return "form";
+        return "post/form";
     }
 
     @RequestMapping(value = "/write", method = RequestMethod.POST)
     public String write(@Valid Post post, BindingResult bindingResult){
         User user = getConnect();
         if(bindingResult.hasErrors()){
-            return "form";
+            return "post/form";
         }
         post.setUserId(user.getProviderUserId());
         post.setName(user.getDisplayName());
@@ -53,13 +57,13 @@ public class PostController {
     }
 
     @RequestMapping("/list")
-    public String list(Model model){
-        List<Post> postList = postDao.findAll();
-        model.addAttribute("postList", postList);
+    public String list(Model model, @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 2) Pageable pageable){
+        Page<Post> postPage = postDao.findAll(pageable);
+        model.addAttribute("postPage", postPage);
 
         User user = getConnect();
         model.addAttribute("user", user);
-        return "list";
+        return "post/list";
     }
 
     @RequestMapping("/{id}")
@@ -69,7 +73,7 @@ public class PostController {
 
         User user = getConnect();
         model.addAttribute("user", user);
-        return "post";
+        return "post/post";
     }
 
     @RequestMapping("/{id}/delete")
@@ -92,7 +96,7 @@ public class PostController {
             model.addAttribute("post", post);
         }
 
-        return "form";
+        return "post/form";
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
@@ -100,7 +104,7 @@ public class PostController {
         User user = getConnect();
 
         if (bindingResult.hasErrors()) {
-            return "form";
+            return "post/form";
         }
 
         Post oldPost = postDao.findOne(post.getId());
@@ -111,7 +115,7 @@ public class PostController {
             return "redirect:/post/" + postDao.save(oldPost).getId();
         }
 
-        return "form";
+        return "post/form";
     }
 
     private User getConnect() {

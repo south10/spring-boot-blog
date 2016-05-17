@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Pen - What You See Is What You Get (WYSIWYG)</title>
-    <link rel="stylesheet" href="/webjars/bootstrap/3.3.4/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.5/dist/css/bootstrap.min.css">
     <style type="text/css">
         * {
             padding: 0;
@@ -185,7 +185,7 @@
     Editor</a></p>
 
 <script src="/webjars/jQuery/2.1.3/dist/jquery.min.js"></script>
-<script src="/webjars/bootstrap/3.3.4/dist/js/bootstrap.min.js"></script>
+<script src="/webjars/bootstrap/3.3.5/dist/js/bootstrap.min.js"></script>
 <script src="/webjars/pen/0.1.0/src/pen.js"></script>
 <script src="/webjars/pen/0.1.0/src/markdown.js"></script>
 <script type="text/javascript">

@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="/webjars/bootstrap/3.3.4/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.5/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/webjars/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/webjars/origoni-startbootstrap-clean-blog/1.0.3/css/clean-blog.min.css">
     <title>Login</title>
@@ -113,5 +113,5 @@
 </footer>
 
 <script src="/webjars/jQuery/2.1.3/dist/jquery.min.js"></script>
-<script src="/webjars/bootstrap/3.3.4/dist/js/bootstrap.min.js"></script></body>
+<script src="/webjars/bootstrap/3.3.5/dist/js/bootstrap.min.js"></script></body>
 </html>
