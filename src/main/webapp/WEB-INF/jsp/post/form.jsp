@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -11,93 +11,30 @@
     <title>Pen - What You See Is What You Get (WYSIWYG)</title>
     <link rel="stylesheet" href="/webjars/bootstrap/3.3.5/dist/css/bootstrap.min.css">
     <style type="text/css">
-        * {
-            padding: 0;
-            margin: 0;
-        }
+        *{padding:0;margin:0;}
+        html{border-top:10px #1abf89 solid;}
+        body{width:750px;margin:0 auto;padding:7% 20px 20px;}
+        @media all and (max-width:1024px){ body, pre a{width:85%;} }
+        small{color:#999;}
+        #toolbar{margin-bottom:1em;position:fixed;right:20px;margin-top:5px;}
+        #toolbar [class^="icon-"]:before, #toolbar [class*=" icon-"]:before{font-family:'pen'}
+        #back{color:#1abf89;cursor:pointer;}
+        #hinted{color:#1abf89;cursor:pointer;}
+        #hinted.disabled{color:#666;}
+        #hinted:before{content: '\e816';}
 
-        html {
-            border-top: 10px #1abf89 solid;
-        }
-
-        body {
-            width: 750px;
-            margin: 0 auto;
-            padding: 7% 20px 20px;
-        }
-
-        @media all and (max-width: 1024px) {
-            body, pre a {
-                width: 85%;
-            }
-        }
-
-        small {
-            color: #999;
-        }
-
-        #toolbar {
-            margin-bottom: 1em;
-            position: fixed;
-            left: 20px;
-            margin-top: 5px;
-        }
-
-        #toolbar [class^="icon-"]:before, #toolbar [class*=" icon-"]:before {
-            font-family: 'pen'
-        }
-
-        #back {
-            color: #1abf89;
-            cursor: pointer;
-        }
-
-        #hinted {
-            color: #1abf89;
-            cursor: pointer;
-        }
-
-        #hinted.disabled {
-            color: #666;
-        }
-
-        #hinted:before {
-            content: '\e816';
-        }
-
-        .errorblock {
-            border: 2px solid red;
-        }
-
-        .error {
-            color: red;
-        }
+        .errorblock {border: 2px solid red;}
+        .error {color: red;}
     </style>
 
-    <link rel="stylesheet" href="/webjars/pen/0.1.0/src/pen.css"/>
+    <link rel="stylesheet" href="/webjars/pen/0.1.0/src/pen.css" />
     <link rel="stylesheet" href="/webjars/origoni-startbootstrap-clean-blog/1.0.3/css/clean-blog.min.css">
 
     <style type="text/css">
-        .pen-icon {
-            padding: 0 9.3px;
-        }
-
-        .pen-menu {
-            opacity: 0.8;
-            border: -1px;
-            height: 37px;
-        }
-
-        .pen-menu:after {
-            display: none;
-        }
-
-        .pen p {
-            font-family: Lora, 'Times New Roman', serif;
-            font-size: 20px;
-            color: #404040;
-        }
-
+        .pen-icon {padding: 0 9.3px;}
+        .pen-menu {opacity: 0.8; border: -1px; height: 37px;}
+        .pen-menu:after {display: none;}
+        .pen p {font-family: Lora, 'Times New Roman', serif; font-size: 20px; color: #404040;}
         .pen h1, h2, h3, h4, h5, h6 {
             font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: 800;
@@ -105,22 +42,10 @@
             margin-bottom: 10px;
             line-height: 1.1;
         }
-
-        .pen h1 {
-            font-size: 36px;
-        }
-
-        .pen h2 {
-            font-size: 30px;
-        }
-
-        .pen h3 {
-            font-size: 24px;
-        }
-
-        .pen h4 {
-            font-size: 18px;
-        }
+        .pen h1 {font-size: 36px;}
+        .pen h2 {font-size: 30px;}
+        .pen h3 {font-size: 24px;}
+        .pen h4 {font-size: 18px;}
     </style>
 </head>
 <body>
@@ -128,6 +53,12 @@
 <div id="toolbar">
     <span id="back" class="icon-back" onclick="history.back();">돌아가기</span><br>
     <span id="hinted" class="icon-pre disabled" title="Toggle Markdown Hints"></span>
+
+    <form action="/category/add" method="post" id="add_category" >
+        <input type="text" name="categoryName" class="form-control" placeholder="새로운 카테고리">
+        <input type="hidden" name="_csrf" value="${_csrf.token}">
+        <button type="submit" class="form-control">추가</button>
+    </form>
 </div>
 
 <div id="custom-toolbar" class="pen-menu pen-menu" style="display: block; top: 20px; margin:0 auto;">
@@ -175,24 +106,48 @@
     <form:input type="hidden" path="content" id="content" />
     <form:errors path="content" cssClass="error" />
 
+    <div class="form-group" style="height: 30px;">
+        <label for="category" class="col-sm-2 control-label">Category</label>
+        <div class="col-sm-10">
+            <form:select path="categoryId" items="${categoryMap}" id="category" class="form-control"/>
+            <form:errors path="categoryId" cssClass="error" />
+        </div>
+    </div>
+
     <hr>
 
     <button type="submit" class="btn btn-primary btn-lg btn-block">저장</button>
 
 </form:form>
 
-<p class="text-muted">Powered By <a href="">south10</a> | WYSIWYG Editor by <a href="https://github.com/sofish/pen">Pen
-    Editor</a></p>
+<p class="text-muted">Powered By <a href="http://millky.com">Millky</a> | WYSIWYG Editor by <a href="https://github.com/sofish/pen">Pen Editor</a></p>
 
 <script src="/webjars/jQuery/2.1.3/dist/jquery.min.js"></script>
 <script src="/webjars/bootstrap/3.3.5/dist/js/bootstrap.min.js"></script>
 <script src="/webjars/pen/0.1.0/src/pen.js"></script>
 <script src="/webjars/pen/0.1.0/src/markdown.js"></script>
 <script type="text/javascript">
+    $('#add_category').submit(function(event) {
+        var form = $(this);
+        $.ajax({
+            type : form.attr('method'),
+            url : form.attr('action'),
+            data : form.serialize()
+        }).done(function(c) {
+            $("#category").append("<option value=" + c.id + ">" + c.name + "</option>");
+            $("#category").val(c.id);
+
+            alert(c.name + " 카테고리가 추가되었습니다.");
+        }).fail(function() {
+            alert('error');
+        });
+        event.preventDefault();
+    });
+
     // config
     var options = {
-        toolbar: document.getElementById('custom-toolbar'),
-        editor: document.querySelector('[data-toggle="pen"]')
+        toolbar : document.getElementById('custom-toolbar'),
+        editor : document.querySelector('[data-toggle="pen"]')
     };
 
     $('#pen').html($('#content').val());
@@ -202,7 +157,7 @@
 
     pen.focus();
 
-    document.querySelector('#hinted').addEventListener('click', function () {
+    document.querySelector('#hinted').addEventListener('click', function() {
         var pen = document.querySelector('.pen')
 
         if (pen.classList.contains('hinted')) {
